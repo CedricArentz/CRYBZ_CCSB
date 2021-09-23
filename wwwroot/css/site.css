@@ -88,7 +88,7 @@ body {
     margin-bottom: 10px;
 }
 
-Ugoz afspraken registratie systeem 67
+
 .home-text {
     font-size: 35px !important;
     color: white !important;
@@ -149,4 +149,11 @@ Ugoz afspraken registratie systeem 67
 /* Show the indicator (dot/circle) when checked */
 .radio-container input:checked ~ .checkmark:after {
     display: block;
+}
+#logo{
+    position: fixed;
+    top: 75px;
+    left: 0;
+    width:200px;
+    height: 75px;
 }
