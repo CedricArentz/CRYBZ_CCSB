@@ -13,5 +13,6 @@ namespace CRYBZ_CCSB.Models
         {
 
         }
+        public DbSet<Appointment> Appointments { get; set; }
     }
 }

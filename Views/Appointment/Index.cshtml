@@ -1,0 +1,17 @@
+﻿<div class="row">
+    <div class="container">
+        @if (User.IsInRole(CRYBZ_CCSB.Utility.Helper.Admin))
+        {
+            <div class="form-group col-4" id="divDoctorList">
+                <label> Select Employee</label>
+                @Html.DropDownList("doctorId", new SelectList(ViewBag.DoctorList, "Id", "Name"),
+                new { @class = "form-control select2" })
+            </div>
+        }
+        <div id="calendar"></div>
+    </div>
+</div>
+<partial name="_AddEditAppointment"/>
+@section Scripts{ 
+    <script src="~/js/script-custom-calendar.js"></script>
+}

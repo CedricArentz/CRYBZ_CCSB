@@ -39,7 +39,7 @@ namespace CRYBZ_CCSB.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Appointment");
                 }
                 ModelState.AddModelError("", "Inloggen mislukt");
             }
@@ -51,8 +51,8 @@ namespace CRYBZ_CCSB.Controllers
             if (!_roleManager.RoleExistsAsync(Helper.Admin).GetAwaiter().GetResult())
             {
                 await _roleManager.CreateAsync(new IdentityRole(Helper.Admin));
-                await _roleManager.CreateAsync(new IdentityRole(Helper.Medewerker));
-                await _roleManager.CreateAsync(new IdentityRole(Helper.Klant));
+                await _roleManager.CreateAsync(new IdentityRole(Helper.Employee));
+                await _roleManager.CreateAsync(new IdentityRole(Helper.Customer));
             }
             return View();
         }

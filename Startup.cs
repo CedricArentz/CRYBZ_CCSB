@@ -1,4 +1,5 @@
 using CRYBZ_CCSB.Models;
+using CRYBZ_CCSB.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,7 +30,9 @@ namespace CRYBZ_CCSB
             services.AddDbContext<ApplicationDbContext>(optionsAction =>
                 optionsAction.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews();
+            services.AddTransient<IAppointmentService, AppointmentService>();
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
