@@ -75,13 +75,13 @@ function checkValidation() {
         isValid = false;
         $("#title").addClass("error");
     } else {
-        $("#title").RemoveClass("error");
+        $("#title").removeClass("error");
     }
     if ($("#appointmentDate").val() === undefined || $("#appointmentDate").val().trim() === "" ) {
         isValid = false;
         $("#appointmentDate").addClass("error");
     } else {
-        $("#appointmentDate").RemoveClass("error");
+        $("#appointmentDate").removeClass("error");
     }
     return isValid;
 }
