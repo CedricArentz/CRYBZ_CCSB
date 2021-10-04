@@ -17,8 +17,8 @@ namespace CRYBZ_CCSB.Controllers
         }
         public IActionResult Index()
         {
-            ViewBag.DoctorList = _appointmentService.GetEmployeeList();
-            ViewBag.PatientList = _appointmentService.GetCustomerList();
+            ViewBag.EmployeeList = _appointmentService.GetEmployeeList();
+            ViewBag.CustomerList = _appointmentService.GetCustomerList();
             ViewBag.Duration = Helper.GetTimeDropDown();
             return View();
         }
