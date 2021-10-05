@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CRYBZ_CCSB.Controllers.API
 {
-    [Route("api/[controller]")]
+    [Route("API/[controller]")]
     [ApiController]
     public class AppointmentApiController : ControllerBase
     {

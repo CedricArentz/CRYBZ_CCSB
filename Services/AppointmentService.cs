@@ -37,7 +37,7 @@ namespace CRYBZ_CCSB.Services
         {
             var customers = (from user in _db.Users
                              join userRole in _db.UserRoles on user.Id equals userRole.UserId
-                             join role in _db.Roles.Where(x => x.Name == Helper.Employee) on userRole.RoleId equals role.Id
+                             join role in _db.Roles.Where(x => x.Name == Helper.Customer) on userRole.RoleId equals role.Id
                              select new CustomerViewModel 
                              {
                                  Id = user.Id,

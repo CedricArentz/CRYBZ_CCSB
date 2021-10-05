@@ -52,7 +52,7 @@ function onSubmitForm() {
     };
 
     $.ajax({
-        url: routeURL + "/API/AppointmentApiController/SaveCalendarData",
+        url: routeURL + "/API/AppointmentApi/SaveCalendarData",
         type: "POST",
         data: JSON.stringify(requestData),
         contentType: "application/json",
