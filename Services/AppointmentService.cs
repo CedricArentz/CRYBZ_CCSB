@@ -50,7 +50,7 @@ namespace CRYBZ_CCSB.Services
         }
         public async Task<int> AddUpdate(AppointmentViewModel model)
         {
-            var startDate = model.StartDate;
+            var startDate = DateTime.Parse(model.StartDate, CultureInfo.CreateSpecificCulture("en-US"));
             var endDate = startDate.AddMinutes(Convert.ToDouble(model.Duration));
             if (model != null && model.Id > 0)
             {
