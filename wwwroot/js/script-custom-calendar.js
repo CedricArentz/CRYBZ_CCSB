@@ -57,7 +57,6 @@ function onSubmitForm() {
         data: JSON.stringify(requestData),
         contentType: "application/json",
         success: function (response) {
-            console.log("1");
             if (response.status === 1 || response.status === 2) {
                 $.notify(response.message, "succes");
                 onCloseModal();

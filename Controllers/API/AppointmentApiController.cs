@@ -36,12 +36,12 @@ namespace CRYBZ_CCSB.Controllers.API
                 commonResponse.Status = _appointmentService.AddUpdate(data).Result;
                 if (commonResponse.Status == 1)
                 {
-                    // Succesfull update
+                    // Successful update
                     commonResponse.Message = Helper.AppointmentUpdated;
                 }
                 if (commonResponse.Status == 2)
                 {
-                    // Succesfull addition
+                    // Successful addition
                     commonResponse.Message = Helper.AppointmentAdded;
                 }
             }
