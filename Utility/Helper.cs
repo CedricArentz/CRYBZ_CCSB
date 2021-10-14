@@ -12,6 +12,9 @@ namespace CRYBZ_CCSB.Utility
         public static readonly string Employee = "Medewerker";
         public static readonly string Customer = "Klant";
 
+        public static readonly string ApplyVehicle = "Een voertuig brengen";
+        public static readonly string PickUpVehicle = "Een voertuig ophalen";
+
         public static string AppointmentAdded = "Afspraak succesvol opgeslagen.";
         public static string AppointmentConfirmed = "Afspraak bevestigd.";
         public static string AppointmentUpdated = "Afspraak succesvol gewijzigd.";
@@ -36,6 +39,17 @@ namespace CRYBZ_CCSB.Utility
             };
             return items.OrderBy(s => s.Text).ToList();
         }
+
+        public static List<SelectListItem> GetActionsForDropDown(bool isAdmin)
+        {
+            var items = new List<SelectListItem>
+            {
+                new SelectListItem{ Value=Helper.ApplyVehicle , Text = Helper.ApplyVehicle},
+                new SelectListItem{ Value=Helper.PickUpVehicle , Text = Helper.PickUpVehicle}
+            };
+            return items.OrderBy(s => s.Text).ToList();
+        }
+
         public static List<SelectListItem> GetTimeDropDown()
         {
             List<SelectListItem> duration = new List<SelectListItem>();

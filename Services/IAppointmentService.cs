@@ -10,6 +10,7 @@ namespace CRYBZ_CCSB.Services
     {
         public List<EmployeeViewModel> GetEmployeeList();
         public List<CustomerViewModel> GetCustomerList();
+        public List<AppointmentViewModel> GetVehicleList();
         public Task<int> AddUpdate(AppointmentViewModel model);
     }
 }

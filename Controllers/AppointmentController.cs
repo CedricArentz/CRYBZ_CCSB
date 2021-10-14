@@ -19,6 +19,7 @@ namespace CRYBZ_CCSB.Controllers
         {
             ViewBag.EmployeeList = _appointmentService.GetEmployeeList();
             ViewBag.CustomerList = _appointmentService.GetCustomerList();
+            ViewBag.VehicleList = _appointmentService.GetVehicleList();
             ViewBag.Duration = Helper.GetTimeDropDown();
             return View();
         }

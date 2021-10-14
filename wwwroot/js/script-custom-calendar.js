@@ -42,13 +42,9 @@ function onCloseModal() {
 function onSubmitForm() {
     if (!checkValidation()) return;
     var requestData = {
-        Id: parseInt($("id").val()),
-        Title: $("#title").val(),
-        Description: $("#description").val(),
-        StartDate: $("#appointmentDate").val(),
-        Duration: $("#duration").val(),
-        EmployeeId: $("#employeeId").val(),
-        CustomerId: $("#customerId").val()
+        LicensePlate: $("#LicensePlate").val(),
+        Date: $("#Date").val(),
+        Action: $("#Action").val()
     };
 
     $.ajax({

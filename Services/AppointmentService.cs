@@ -48,11 +48,24 @@ namespace CRYBZ_CCSB.Services
                              ).OrderBy(u => u.Name).ToList();
             return customers;
         }
+
+        public List<AppointmentViewModel> GetVehicleList()
+        {
+            var appointment = (from Appointment in _db.Appointments
+                             select new AppointmentViewModel
+                             {
+                                 Action = Appointment.Action,
+                                 LicensePlate = Appointment.LicensePlate
+                             }
+                             ).OrderBy(a => a.LicensePlate).ToList();
+            return appointment;
+        }
+
         public async Task<int> AddUpdate(AppointmentViewModel model)
         {
-            var startDate = DateTime.Parse(model.StartDate, CultureInfo.CreateSpecificCulture("en-US"));
-            var endDate = startDate.AddMinutes(Convert.ToDouble(model.Duration));
-            if (model != null && model.Id > 0)
+            var Date = DateTime.Parse(model.Date, CultureInfo.CreateSpecificCulture("nl-NL"));
+            var endDate = Date.AddMinutes(Convert.ToDouble(model.Date));
+            if (model != null)
             {
                 //TODO: Add code for update appointment
                 return 1;
@@ -62,15 +75,9 @@ namespace CRYBZ_CCSB.Services
                 //Create appointment based on view model
                 Appointment appointment = new Appointment()
                 {
-                    Title = model.Title,
-                    Description = model.Description,
-                    StartDate = startDate,
-                    EndDate = endDate,
-                    Duration = model.Duration,
-                    EmployeeId = model.EmployeeId,
-                    CustomerId = model.CustomerId,
-                    IsEmployeeApproved = model.IsEmployeeApproved,
-                    AdminId = model.AdminId
+                    Date = model.Date,
+                    Action = model.Action,
+                    LicensePlate = model.LicensePlate
                 };
                 _db.Appointments.Add(appointment);
                 await _db.SaveChangesAsync();

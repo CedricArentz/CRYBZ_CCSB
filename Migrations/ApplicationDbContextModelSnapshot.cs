@@ -95,39 +95,16 @@ namespace CRYBZ_CCSB.Migrations
 
             modelBuilder.Entity("CRYBZ_CCSB.Models.Appointment", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Date")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AdminId")
+                    b.Property<string>("Action")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CustomerId")
+                    b.Property<string>("LicensePlate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<string>("EmployeeId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsEmployeeApproved")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
+                    b.HasKey("Date");
 
                     b.ToTable("Appointments");
                 });
