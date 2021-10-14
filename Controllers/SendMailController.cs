@@ -29,12 +29,10 @@ namespace CRYBZ_CCSB
             });
             Email.DefaultSender = sender;
             //html template
-            string filename = $"{Directory.GetCurrentDirectory()}/Tamplates/index.html";
-            if (!String.IsNullOrEmpty(emailtxt))
-
+            string filename = $"{Directory.GetCurrentDirectory()}/wwwroot/tamplates/Email/index.html";
+            if (!string.IsNullOrEmpty(emailtxt))
             {
-
-                var email = Email
+                                var email = Email
                 //hier komen de gegevens van email (Onderwerp text etc)
                 .From("beheerdervanccsb@gmail.com", "X")
                 .To(emailtxt, "Naam verzender")

@@ -9,5 +9,6 @@ namespace CRYBZ_CCSB.Models.ViewModels
 {
     public class MailViewModel
     {
+
     }
 }
