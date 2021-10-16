@@ -31,6 +31,7 @@ namespace CRYBZ_CCSB
                 optionsAction.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews();
             services.AddTransient<IAppointmentService, AppointmentService>();
+            services.AddTransient<IVehicleService, VehicleService>();
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddHttpContextAccessor();
         }
