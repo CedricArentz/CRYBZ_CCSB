@@ -35,7 +35,7 @@ namespace CRYBZ_CCSB.Services
 
         public async Task<int> AddUpdate(VehicleViewModel model)
         { 
-            if (model != null && model.LicencePlate != null)
+            if (model != null && model.LicencePlate == null)
             {
                 //TODO: Add code for update appointment
                 return 1;

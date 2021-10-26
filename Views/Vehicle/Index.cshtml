@@ -1,6 +1,6 @@
 ﻿@model CRYBZ_CCSB.Models.ViewModels.VehicleViewModel
 <h2>Registreren</h2>
-<form method="post" asp-action="SaveVehicleData" asp-controller="Vehicle">
+<form method="post" asp-action="Index" asp-controller="Vehicle">
     <h4>Voertuig Registreren</h4>
     <hr />
     <div asp-validation-summary="All" class="text-danger"></div>
@@ -56,7 +56,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-10 offset-md-2">
-            <input type="submit" value="Registreer2" class="btn btn-success" />
+            <input type="submit" value="Registreer" class="btn btn-success" />
         </div>
     </div>
 </form>
