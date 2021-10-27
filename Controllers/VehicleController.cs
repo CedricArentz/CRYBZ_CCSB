@@ -25,6 +25,7 @@ namespace CRYBZ_CCSB.Controllers
         }
         public IActionResult Index()
         {
+            
             ViewBag.CustomerList = _vehicleService.GetCustomerList();
             return View();
         }
