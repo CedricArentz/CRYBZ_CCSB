@@ -27,7 +27,7 @@ namespace CRYBZ_CCSB.Utility
         public static string VehicleConfirmed = "Voertuig bevestigd.";
         public static string VehicleUpdated = "Voertuig succesvol gewijzigd.";
         public static string VehicleDeleted = "Voertuig succesvol verwijderd.";
-        public static string VehicleExists = "Voertuig bestaat al op gegeven datum en tijdstip.";
+        public static string VehicleExists = "Voertuig bestaat al op.";
         public static string VehicleNotExists = "Voertuig bestaat niet.";
         public static string VehicleAddError = "Er ging iets mis. Voertuig niet toegevoegd.";
         public static string VehicleConfirmError = "Er ging iets mis. Voertuig niet bevestigd.";

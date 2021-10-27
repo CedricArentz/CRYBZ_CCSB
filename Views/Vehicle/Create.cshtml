@@ -23,7 +23,7 @@
                     <select asp-for="VehicleType"
                             asp-items="@CRYBZ_CCSB.Utility.Helper.GetVehicleType()"
                             class="form-control">
-                        <option selected>- Selecteer Voertuigtype -</option>
+                        <option selected disabled>- Selecteer Voertuigtype -</option>
                     </select>
                     <span asp-validation-for="VehicleType" class="text-danger"></span>
                 </div>
@@ -49,7 +49,7 @@
                     <select asp-for="CustomerId"
                             asp-items="@(new SelectList(ViewBag.CustomerList, "Id", "Name"))"
                             class="form-control">
-                        <option selected>- Selecteer Eigenaar -</option>
+                        <option selected disabled>- Selecteer Eigenaar -</option>
                     </select>
                     <span asp-validation-for="CustomerId" class="text-danger"></span>
                 </div>
