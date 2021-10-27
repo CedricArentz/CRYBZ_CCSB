@@ -40,5 +40,7 @@ namespace CRYBZ_CCSB.Models.ViewModels
         [DisplayName("Rol*")]
         [Required(ErrorMessage = "{0} is een verplicht veld.")]
         public string RoleName { get; set; }
+
+        public string emailtxt { get; set; }
     }
 }

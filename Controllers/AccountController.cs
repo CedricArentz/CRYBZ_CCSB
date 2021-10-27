@@ -1,11 +1,16 @@
 ﻿using CRYBZ_CCSB.Models;
 using CRYBZ_CCSB.Models.ViewModels;
 using CRYBZ_CCSB.Utility;
+using FluentEmail.Core;
+using FluentEmail.Smtp;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace CRYBZ_CCSB.Controllers
@@ -60,6 +65,17 @@ namespace CRYBZ_CCSB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            ViewBag.email = model.emailtxt;
+            var sender = new SmtpSender(() => new SmtpClient("smtp.gmail.com")
+            {
+                UseDefaultCredentials = false,
+                Port = 587,
+                Credentials = new NetworkCredential("beheerdervanccsb@gmail.com", "Ronaniseendikkepadvis04!"),
+                EnableSsl = true,
+            });
+            Email.DefaultSender = sender;
+            string filename = $"{Directory.GetCurrentDirectory()}/wwwroot/tamplates/Email/index.html";
+
             if (ModelState.IsValid)
             {
                 ApplicationUser user = new ApplicationUser()
@@ -70,7 +86,16 @@ namespace CRYBZ_CCSB.Controllers
                     MiddleName = model.MiddleName,
                     LastName = model.LastName
                 };
+                var email = Email
+                //hier komen de gegevens van email (Onderwerp text etc)
+                .From("beheerdervanccsb@gmail.com", "X")
+                .To(model.Email, "Naam verzender")
+                .Subject("Onderwerp Email")
+                .UsingTemplateFromFile(filename, new { Name = "test" });
+                var response = await email.SendAsync();
+
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     // Assign role to user and log the user in and redirect to the homepage
