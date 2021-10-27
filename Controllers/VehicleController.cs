@@ -25,7 +25,7 @@ namespace CRYBZ_CCSB.Controllers
         // GET: Vehicle
         public async Task<IActionResult> Index()
         {
-            return View(await _context.VehicleViewModel.ToListAsync());
+            return View(await _context.Vehicles.ToListAsync());
         }
 
         // GET: Vehicle/Details/5
@@ -36,7 +36,7 @@ namespace CRYBZ_CCSB.Controllers
                 return NotFound();
             }
 
-            var vehicleViewModel = await _context.VehicleViewModel
+            var vehicleViewModel = await _context.Vehicles
                 .FirstOrDefaultAsync(m => m.LicencePlate == id);
             if (vehicleViewModel == null)
             {
@@ -77,7 +77,7 @@ namespace CRYBZ_CCSB.Controllers
                 return NotFound();
             }
 
-            var vehicleViewModel = await _context.VehicleViewModel.FindAsync(id);
+            var vehicleViewModel = await _context.Vehicles.FindAsync(id);
             if (vehicleViewModel == null)
             {
                 return NotFound();
@@ -128,7 +128,7 @@ namespace CRYBZ_CCSB.Controllers
                 return NotFound();
             }
 
-            var vehicleViewModel = await _context.VehicleViewModel
+            var vehicleViewModel = await _context.Vehicles
                 .FirstOrDefaultAsync(m => m.LicencePlate == id);
             if (vehicleViewModel == null)
             {
@@ -143,15 +143,15 @@ namespace CRYBZ_CCSB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var vehicleViewModel = await _context.VehicleViewModel.FindAsync(id);
-            _context.VehicleViewModel.Remove(vehicleViewModel);
+            var vehicleViewModel = await _context.Vehicles.FindAsync(id);
+            _context.Vehicles.Remove(vehicleViewModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool VehicleViewModelExists(string id)
         {
-            return _context.VehicleViewModel.Any(e => e.LicencePlate == id);
+            return _context.Vehicles.Any(e => e.LicencePlate == id);
         }
     }
 }
