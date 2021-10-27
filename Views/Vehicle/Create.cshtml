@@ -1,4 +1,7 @@
 ﻿@model CRYBZ_CCSB.Models.ViewModels.VehicleViewModel
+@{
+    ViewData["Title"] = "Create";
+}
 <h2>Registreren</h2>
 <form method="post" asp-action="Index" asp-controller="Vehicle">
     <h4>Voertuig Registreren</h4>
@@ -60,6 +63,9 @@
         </div>
     </div>
 </form>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
 }

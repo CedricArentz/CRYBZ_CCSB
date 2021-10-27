@@ -31,6 +31,7 @@ namespace CRYBZ_CCSB.Models.ViewModels
         public string Type { get; set; }
 
         [DisplayName("Eigenaar")]
+        [Required(ErrorMessage = "{0} is een verplicht veld.")]
         public string CustomerId { get; set; }
     }
 }

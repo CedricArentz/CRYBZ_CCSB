@@ -14,114 +14,142 @@ namespace CRYBZ_CCSB.Controllers
 {
     public class VehicleController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        IVehicleService _vehicleService;
+        private readonly ApplicationDbContext _context;
 
-        public VehicleController(ApplicationDbContext db,
-            IVehicleService vehicleService)
+        public VehicleController(ApplicationDbContext context)
         {
-            _db = db;
-            _vehicleService = vehicleService;
+            _context = context;
         }
-        public IActionResult Index()
+
+        // GET: Vehicle
+        public async Task<IActionResult> Index()
         {
-            
-            ViewBag.CustomerList = _vehicleService.GetCustomerList();
+            return View(await _context.Vehicles.ToListAsync());
+        }
+
+        // GET: Vehicle/Details/5
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var vehicleViewModel = await _context.Vehicles
+                .FirstOrDefaultAsync(m => m.LicencePlate == id);
+            if (vehicleViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(vehicleViewModel);
+        }
+
+        // GET: Vehicle/Create
+        public IActionResult Create()
+        {
             return View();
         }
+
+        // POST: Vehicle/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SaveVehicleData(VehicleViewModel model)
+        public async Task<IActionResult> Create([Bind("LicencePlate,VehicleType,Length,Brand,Type,CustomerId")] VehicleViewModel vehicleViewModel)
         {
-            Vehicle vehicle = new Vehicle()
+            if (ModelState.IsValid)
             {
-                LicencePlate = model.LicencePlate,
-                VehicleType = model.VehicleType,
-                Length = model.Length,
-                Brand = model.Brand,
-                Type = model.Type,
-                CustomerId = model.CustomerId,
-            };
-            _db.Vehicles.Add(vehicle);
-            await _db.SaveChangesAsync();
-            return View();
-
-
-            //CommonResponse<int> commonResponse = new CommonResponse<int>();
-            //try
-            //{
-            //    commonResponse.Status = _vehicleService.AddUpdate(data).Result;
-            //    if (commonResponse.Status == 1)
-            //    {
-            //        // Successful update
-            //        commonResponse.Message = Helper.VehicleUpdated;
-            //    }
-            //    if (commonResponse.Status == 2)
-            //    {
-            //        // Successful addition
-            //        commonResponse.Message = Helper.VehicleAdded;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    commonResponse.Message = ex.Message;
-            //    commonResponse.Status = Helper.Failure_code;
-            //}
-            //return Ok(commonResponse);
+                _context.Add(vehicleViewModel);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(vehicleViewModel);
         }
-        //public async Task<int> AddUpdate(VehicleViewModel model)
-        //{
-        //    if (model != null && model.LicencePlate == null)
-        //    {
-        //        //TODO: Add code for update appointment
-        //        return 1;
-        //    }
-        //    else
-        //    {
-        //        //Create appointment based on view model
-        //        Vehicle vehicle = new Vehicle()
-        //        {
-        //            LicencePlate = model.LicencePlate,
-        //            VehicleType = model.VehicleType,
-        //            Length = model.Length,
-        //            Brand = model.Brand,
-        //            Type = model.Type,
-        //            CustomerId = model.CustomerId,
-        //        };
-        //        _db.Vehicles.Add(vehicle);
-        //        await _db.SaveChangesAsync();
-        //        return 2;
-        //    }
-        //}
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Register(RegisterViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        ApplicationUser user = new ApplicationUser()
-        //        {
-        //            UserName = model.Email,
-        //            Email = model.Email,
-        //            FirstName = model.FirstName,
-        //            MiddleName = model.MiddleName,
-        //            LastName = model.LastName
-        //        };
-        //        var result = await _userManager.CreateAsync(user, model.Password);
-        //        if (result.Succeeded)
-        //        {
-        //            // Assign role to user and log the user in and redirect to the homepage
-        //            await _userManager.AddToRoleAsync(user, model.RoleName);
-        //            await _signInManager.SignInAsync(user, isPersistent: false);
-        //            return RedirectToAction("Index", "Home");
-        //        }
-        //        //Add all errors to the modelstate
-        //        foreach (var error in result.Errors)
-        //        {
-        //            ModelState.AddModelError("", error.Description);
-        //        }
-        //    }
-        //    return View();
-        //}
+
+        // GET: Vehicle/Edit/5
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var vehicleViewModel = await _context.Vehicles.FindAsync(id);
+            if (vehicleViewModel == null)
+            {
+                return NotFound();
+            }
+            return View(vehicleViewModel);
+        }
+
+        // POST: Vehicle/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, [Bind("LicencePlate,VehicleType,Length,Brand,Type,CustomerId")] VehicleViewModel vehicleViewModel)
+        {
+            if (id != vehicleViewModel.LicencePlate)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(vehicleViewModel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!VehicleViewModelExists(vehicleViewModel.LicencePlate))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(vehicleViewModel);
+        }
+
+        // GET: Vehicle/Delete/5
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var vehicleViewModel = await _context.Vehicles
+                .FirstOrDefaultAsync(m => m.LicencePlate == id);
+            if (vehicleViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(vehicleViewModel);
+        }
+
+        // POST: Vehicle/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var vehicleViewModel = await _context.Vehicles.FindAsync(id);
+            _context.Vehicles.Remove(vehicleViewModel);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool VehicleViewModelExists(string id)
+        {
+            return _context.Vehicles.Any(e => e.LicencePlate == id);
+        }
     }
 }
