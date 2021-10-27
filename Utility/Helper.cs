@@ -23,9 +23,21 @@ namespace CRYBZ_CCSB.Utility
         public static string SomethingWentWrong = "Er ging iets mis. Probeer het opnieuw.";
         public static string AppointmentUpdatError = "Er ging iets mis. Afspraak niet gewijzigd.";
 
+        public static string VehicleAdded = "Voertuig succesvol opgeslagen.";
+        public static string VehicleConfirmed = "Voertuig bevestigd.";
+        public static string VehicleUpdated = "Voertuig succesvol gewijzigd.";
+        public static string VehicleDeleted = "Voertuig succesvol verwijderd.";
+        public static string VehicleExists = "Voertuig bestaat al op gegeven datum en tijdstip.";
+        public static string VehicleNotExists = "Voertuig bestaat niet.";
+        public static string VehicleAddError = "Er ging iets mis. Voertuig niet toegevoegd.";
+        public static string VehicleConfirmError = "Er ging iets mis. Voertuig niet bevestigd.";
+        public static string VehicleUpdateError = "Er ging iets mis. Voertuig niet gewijzigd.";
+
         public static int Succes_code = 1;
         public static int Failure_code = 0;
 
+        public static readonly string Caravan = "Caravan";
+        public static readonly string Camper = "Camper";
         public static List<SelectListItem> GetRolesForDropDown(bool isAdmin)
         {
             var items = new List<SelectListItem>
@@ -39,11 +51,20 @@ namespace CRYBZ_CCSB.Utility
         public static List<SelectListItem> GetTimeDropDown()
         {
             List<SelectListItem> duration = new List<SelectListItem>();
-            for (int i = 10; i< 90; i+=10)
-			{
-                duration.Add(new SelectListItem{ Value = i.ToString(), Text = i + " minuten"});
-			}
+            for (int i = 10; i < 90; i += 10)
+            {
+                duration.Add(new SelectListItem { Value = i.ToString(), Text = i + " minuten" });
+            }
             return duration;
+        }
+        public static List<SelectListItem> GetVehicleType()
+        {
+            var items = new List<SelectListItem>
+            {
+                new SelectListItem{ Value=Helper.Caravan , Text = Helper.Caravan},
+                new SelectListItem{ Value=Helper.Camper , Text = Helper.Camper}
+            };
+            return items.OrderBy(s => s.Text).ToList();
         }
     }
 }
