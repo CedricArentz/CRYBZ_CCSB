@@ -77,6 +77,5 @@ namespace CRYBZ_CCSB.Services
                 return 2;
             }
         }
-        
     }
 }
