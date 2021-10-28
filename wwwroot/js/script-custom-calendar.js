@@ -1,6 +1,6 @@
 ﻿var routeURL = location.protocol + "//" + location.host;
 $(document).ready(function () {
-    $("#appointmentDate").kendoDateTimePicker({
+    $("#Date").kendoDateTimePicker({
         value: new Date(),
         dateInput: false
     });
@@ -62,23 +62,18 @@ function onSubmitForm() {
             }
         },
         error: function (xhr) {
-            $.notify("Error", "Fout");
+            $.notify("Errortest", "Fout");
         }
     });
 }
 function checkValidation() {
     var isValid = true;
-    if ($("#title").val() === undefined || $("#title").val().trim() === "" ){
+    
+    if ($("#Date").val() === undefined || $("#Date").val().trim() === "" ) {
         isValid = false;
-        $("#title").addClass("error");
+        $("#Date").addClass("error");
     } else {
-        $("#title").removeClass("error");
-    }
-    if ($("#appointmentDate").val() === undefined || $("#appointmentDate").val().trim() === "" ) {
-        isValid = false;
-        $("#appointmentDate").addClass("error");
-    } else {
-        $("#appointmentDate").removeClass("error");
+        $("#Date").removeClass("error");
     }
     return isValid;
 }

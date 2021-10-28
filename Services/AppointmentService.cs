@@ -52,20 +52,20 @@ namespace CRYBZ_CCSB.Services
         public List<AppointmentViewModel> GetVehicleList()
         {
             var appointment = (from Appointment in _db.Appointments
-                             select new AppointmentViewModel
-                             {
-                                 Action = Appointment.Action,
-                                 LicensePlate = Appointment.LicensePlate
-                             }
-                             ).OrderBy(a => a.LicensePlate).ToList();
+                               select new AppointmentViewModel
+                               {
+                                   Action = Appointment.Action,
+                                   LicensePlate = Appointment.LicensePlate,
+                                   Date = Convert.ToString(Appointment.Date)
+                               }
+                             ).OrderBy(a => a.Date).ToList();
             return appointment;
         }
 
         public async Task<int> AddUpdate(AppointmentViewModel model)
         {
-            var Date = DateTime.Parse(model.Date, CultureInfo.CreateSpecificCulture("nl-NL"));
-            var endDate = Date.AddMinutes(Convert.ToDouble(model.Date));
-            if (model != null)
+            DateTime date = DateTime.Parse(model.Date, CultureInfo.CreateSpecificCulture("en-US"));
+            if (model == null)
             {
                 //TODO: Add code for update appointment
                 return 1;
@@ -75,7 +75,7 @@ namespace CRYBZ_CCSB.Services
                 //Create appointment based on view model
                 Appointment appointment = new Appointment()
                 {
-                    Date = model.Date,
+                    Date = (DateTime)date,
                     Action = model.Action,
                     LicensePlate = model.LicensePlate
                 };

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CRYBZ_CCSB.Migrations
 {
-    public partial class createtables : Migration
+    public partial class readd : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,7 +11,7 @@ namespace CRYBZ_CCSB.Migrations
                 name: "Appointments",
                 columns: table => new
                 {
-                    Date = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Action = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LicensePlate = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },

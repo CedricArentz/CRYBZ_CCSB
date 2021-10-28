@@ -9,7 +9,7 @@ namespace CRYBZ_CCSB.Models
     public class Appointment
     {
         [Key]
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
         public string Action { get; set; }
         public string LicensePlate { get; set; }
     }

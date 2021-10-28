@@ -95,8 +95,8 @@ namespace CRYBZ_CCSB.Migrations
 
             modelBuilder.Entity("CRYBZ_CCSB.Models.Appointment", b =>
                 {
-                    b.Property<string>("Date")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Action")
                         .HasColumnType("nvarchar(max)");

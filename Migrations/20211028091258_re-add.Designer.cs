@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRYBZ_CCSB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211014092258_createtables")]
-    partial class createtables
+    [Migration("20211028091258_re-add")]
+    partial class readd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -97,8 +97,8 @@ namespace CRYBZ_CCSB.Migrations
 
             modelBuilder.Entity("CRYBZ_CCSB.Models.Appointment", b =>
                 {
-                    b.Property<string>("Date")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Action")
                         .HasColumnType("nvarchar(max)");
