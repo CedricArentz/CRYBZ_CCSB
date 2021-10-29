@@ -26,6 +26,7 @@ namespace CRYBZ_CCSB.Utility
         public static int Succes_code = 1;
         public static int Failure_code = 0;
 
+        public static string EmailBody = "Hello <b>@@FirstName</b>";
         public static List<SelectListItem> GetRolesForDropDown(bool isAdmin)
         {
             var items = new List<SelectListItem>

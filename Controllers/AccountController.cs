@@ -5,6 +5,7 @@ using FluentEmail.Core;
 using FluentEmail.Smtp;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting.Internal;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -74,7 +75,8 @@ namespace CRYBZ_CCSB.Controllers
                 EnableSsl = true,
             });
             Email.DefaultSender = sender;
-            string filename = $"{Directory.GetCurrentDirectory()}/wwwroot/tamplates/Email/index.html";
+            string html = Utility.Helper.EmailBody.Replace("@@FirstName", model.FirstName);
+            
 
             if (ModelState.IsValid)
             {
@@ -86,18 +88,20 @@ namespace CRYBZ_CCSB.Controllers
                     MiddleName = model.MiddleName,
                     LastName = model.LastName
                 };
-                var email = Email
-                //hier komen de gegevens van email (Onderwerp text etc)
-                .From("beheerdervanccsb@gmail.com", "X")
-                .To(model.Email, "Naam verzender")
-                .Subject("Onderwerp Email")
-                .UsingTemplateFromFile(filename, new { Name = "test" });
-                var response = await email.SendAsync();
-
+                
                 var result = await _userManager.CreateAsync(user, model.Password);
+                
 
                 if (result.Succeeded)
                 {
+                    var email = Email
+                    //hier komen de gegevens van email (Onderwerp text etc)
+                    .From("beheerdervanccsb@gmail.com", "X")
+                    .To(model.Email, "Naam verzender")
+                    .Subject("Onderwerp Email")
+                    .Body(html);
+                    var response = await email.SendAsync();
+
                     // Assign role to user and log the user in and redirect to the homepage
                     await _userManager.AddToRoleAsync(user, model.RoleName);
                     await _signInManager.SignInAsync(user, isPersistent: false);
