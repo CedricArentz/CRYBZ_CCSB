@@ -1,6 +1,7 @@
 ﻿using CRYBZ_CCSB.Models;
 using CRYBZ_CCSB.Models.ViewModels;
 using CRYBZ_CCSB.Utility;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -39,6 +40,8 @@ namespace CRYBZ_CCSB.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
+                    var user = await _userManager.FindByNameAsync(model.Email);
+                    HttpContext.Session.SetString("userFullName", user.FullName);
                     return RedirectToAction("Index", "Appointment");
                 }
                 ModelState.AddModelError("", "Inloggen mislukt");
@@ -75,7 +78,14 @@ namespace CRYBZ_CCSB.Controllers
                 {
                     // Assign role to user and log the user in and redirect to the homepage
                     await _userManager.AddToRoleAsync(user, model.RoleName);
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    if (!User.IsInRole(Helper.Admin))
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                    }
+                    else
+                    {
+                        TempData["newAdminSignUp"] = user.FullName;
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 //Add all errors to the modelstate

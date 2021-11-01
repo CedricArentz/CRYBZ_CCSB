@@ -28,12 +28,14 @@ namespace CRYBZ_CCSB.Utility
 
         public static List<SelectListItem> GetRolesForDropDown(bool isAdmin)
         {
-            var items = new List<SelectListItem>
+            var items = new List<SelectListItem>();
+
+            if (isAdmin)
             {
-                new SelectListItem{ Value=Helper.Admin , Text = Helper.Admin},
-                new SelectListItem{ Value=Helper.Employee , Text = Helper.Employee},
-                new SelectListItem{ Value=Helper.Customer , Text = Helper.Customer}
-            };
+                items.Add(new SelectListItem { Value = Helper.Admin, Text = Helper.Admin });
+            }
+                items.Add(new SelectListItem { Value = Helper.Employee, Text = Helper.Employee });
+                items.Add(new SelectListItem { Value = Helper.Customer, Text = Helper.Customer });
             return items.OrderBy(s => s.Text).ToList();
         }
         public static List<SelectListItem> GetTimeDropDown()

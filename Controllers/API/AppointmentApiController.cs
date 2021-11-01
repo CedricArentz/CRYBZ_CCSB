@@ -52,5 +52,98 @@ namespace CRYBZ_CCSB.Controllers.API
             }
             return Ok(commonResponse);
         }
+        [HttpGet]
+        [Route("GetCalendarData")]
+        public IActionResult GetCalendarData(string employeeId)
+        {
+            CommonResponse<List<AppointmentViewModel>> commonResponse = new CommonResponse<List<AppointmentViewModel>>();
+            try
+            {
+                if (role == Helper.Customer)
+                {
+                    commonResponse.DataEnum = _appointmentService.CustomerAppointments(loginUserId);
+                    commonResponse.Status = Helper.Succes_code;
+                }
+                else if (role == Helper.Employee)
+                {
+                    commonResponse.DataEnum = _appointmentService.EmployeeAppointments(loginUserId);
+                    commonResponse.Status = Helper.Succes_code;
+                }
+                else
+                {
+                    commonResponse.DataEnum = _appointmentService.EmployeeAppointments(employeeId);
+                    commonResponse.Status = Helper.Succes_code;
+                }
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+                commonResponse.Status = Helper.Failure_code;
+            }
+            return Ok(commonResponse);
+        }
+        [HttpGet]
+        [Route("GetCalendarDataById/{id}")]
+        public IActionResult GetCalendarDataById(int id)
+        {
+            CommonResponse<AppointmentViewModel> commonResponse = new CommonResponse<AppointmentViewModel>();
+            try
+            {
+                commonResponse.DataEnum = _appointmentService.GetById(id);
+                commonResponse.Status = Helper.Succes_code;
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+                commonResponse.Status = Helper.Failure_code;
+            }
+            return Ok(commonResponse);
+        }
+        [HttpGet]
+        [Route("ConfirmAppointment/{id}")]
+        public IActionResult ConfirmAppointment(int id)
+        {
+            CommonResponse<AppointmentViewModel> commonResponse = new CommonResponse<AppointmentViewModel>();
+            try
+            {
+                var result = _appointmentService.ConfirmAppointment(id).Result;
+                if (result > 0)
+                {
+                    commonResponse.Status = Helper.Succes_code;
+                    commonResponse.Message = Helper.AppointmentConfirmed;
+                }
+                else
+                {
+                    commonResponse.Status = Helper.Failure_code;
+                    commonResponse.Message = Helper.AppointmentConfirmError;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+                commonResponse.Status = Helper.Failure_code;
+            }
+            return Ok(commonResponse);
+        }
+
+        [HttpGet]
+        [Route("DeleteAppointment/{id}")]
+        public async Task<IActionResult> DeleteAppointment(int id)
+        {
+            CommonResponse<AppointmentViewModel> commonResponse = new CommonResponse<AppointmentViewModel>();
+            try
+            {
+                commonResponse.Status = await _appointmentService.DeleteAppointment(id);
+                commonResponse.Message = commonResponse.Status == 1 ? Helper.AppointmentDeleted : Helper.SomethingWentWrong;
+
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+                commonResponse.Status = Helper.Failure_code;
+            }
+            return Ok(commonResponse);
+        }
     }
 }

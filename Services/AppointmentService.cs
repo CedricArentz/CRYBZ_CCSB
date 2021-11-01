@@ -77,6 +77,79 @@ namespace CRYBZ_CCSB.Services
                 return 2;
             }
         }
-        
+        public List<AppointmentViewModel> CustomerAppointments(string customerid)
+        {
+            return _db.Appointments.Where(a => a.CustomerId == customerid).ToList().Select(
+                c => new AppointmentViewModel()
+                {
+                    Id = c.Id,
+                    Description = c.Description,
+                    StartDate = c.StartDate.ToString("yyyy-MM-dd HH:mm"),
+                    EndDate = c.EndDate.ToString("yyyy-MM-dd HH:mm"),
+                    Title = c.Title,
+                    Duration = c.Duration,
+                    IsEmployeeApproved = c.IsEmployeeApproved
+                }).ToList();
+        }
+
+        public List<AppointmentViewModel> EmployeeAppointments(string employeeid)
+        {
+            return _db.Appointments.Where(a => a.EmployeeId == employeeid).ToList().Select(
+                c => new AppointmentViewModel()
+                {
+                    Id = c.Id,
+                    Description = c.Description,
+                    StartDate = c.StartDate.ToString("yyyy-MM-dd HH:mm"),
+                    EndDate = c.EndDate.ToString("yyyy-MM-dd HH:mm"),
+                    Title = c.Title,
+                    Duration = c.Duration,
+                    IsEmployeeApproved = c.IsEmployeeApproved
+                }).ToList();
+        }
+        public AppointmentViewModel GetById(int id)
+        {
+            return _db.Appointments.Where(a => a.Id == id).ToList().Select(
+                c => new AppointmentViewModel()
+                {
+                    Id = c.Id,
+                    Description = c.Description,
+                    StartDate = c.StartDate.ToString("d-MM-yyyy HH:mm"),
+                    EndDate = c.EndDate.ToString("d-M-yyyy HH: mm"),
+                    Title = c.Title,
+                    Duration = c.Duration,
+                    IsEmployeeApproved = c.IsEmployeeApproved,
+                    CustomerId = c.CustomerId,
+                    EmployeeId = c.EmployeeId,
+                    CustomerName = _db.Users.Where(u => u.Id == c.CustomerId).Select(u => u.FullName).FirstOrDefault(),
+                    EmployeeName = _db.Users.Where(u => u.Id == c.EmployeeId).Select(u => u.FullName).FirstOrDefault()
+                }).SingleOrDefault();
+        }
+        public async Task<int> DeleteAppointment(int id)
+        {
+            var appointment = _db.Appointments.FirstOrDefault(a => a.Id == id);
+            if (appointment != null)
+            {
+                _db.Appointments.Remove(appointment);
+                return await _db.SaveChangesAsync();
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public async Task<int> ConfirmAppointment(int id)
+        {
+            var appointment = _db.Appointments.FirstOrDefault(a => a.Id == id);
+            if (appointment != null)
+            {
+                appointment.IsEmployeeApproved = true;
+                return await _db.SaveChangesAsync();
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 }
