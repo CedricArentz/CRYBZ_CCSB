@@ -86,6 +86,7 @@ namespace CRYBZ_CCSB.Controllers
             {
                 return NotFound();
             }
+            ViewBag.CustomerList = _appointmentService.GetCustomerList();
             return View(vehicleViewModel);
         }
 

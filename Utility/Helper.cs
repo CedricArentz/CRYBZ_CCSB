@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using CRYBZ_CCSB.Models;
+using CRYBZ_CCSB.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +10,7 @@ namespace CRYBZ_CCSB.Utility
 {
     public static class Helper
     {
+        
         public static readonly string Admin = "Beheerder";
         public static readonly string Employee = "Medewerker";
         public static readonly string Customer = "Klant";
@@ -66,5 +69,6 @@ namespace CRYBZ_CCSB.Utility
             };
             return items.OrderBy(s => s.Text).ToList();
         }
+        
     }
 }

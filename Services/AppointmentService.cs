@@ -48,6 +48,21 @@ namespace CRYBZ_CCSB.Services
                              ).OrderBy(u => u.Name).ToList();
             return customers;
         }
+        //public static Task GetCustomerName(string id)
+        //{
+        //    var customerName = (from user in _db.Users
+        //                        join userRole in _db.UserRoles on user.Id equals userRole.UserId
+        //                        join role in _db.Roles.Where(x => x.Name == Helper.Customer) on userRole.RoleId equals role.Id
+        //                        select new CustomerViewModel
+        //                        {
+        //                            Id = user.Id,
+        //                            Name = string.IsNullOrEmpty(user.MiddleName) ?
+        //                            user.FirstName + " " + user.LastName :
+        //                            user.FirstName + " " + user.MiddleName + " " + user.LastName
+        //                        }
+        //                     ).OrderBy(u => u.Name).ToList();
+        //    return customerName;
+        //}
         public async Task<int> AddUpdate(AppointmentViewModel model)
         {
             var startDate = DateTime.Parse(model.StartDate, CultureInfo.CreateSpecificCulture("en-US"));

@@ -12,6 +12,7 @@ namespace CRYBZ_CCSB.Models.ViewModels
         [Key]
         [DisplayName("Kenteken")]
         [Required(ErrorMessage = "{0} is een verplicht veld.")]
+        [RegularExpression(@"((\w{2}-\w{2}-\w{2})|(\w{2}-\w{3}-\w{1})|(\w{1}-\w{3}-\w{2})|(\w{3}-\w{2}-\w{1})|(\w{1}-\w{2}-\w{3}))"), StringLength(8)]
         public string LicencePlate { get; set; }
 
         [DisplayName("Voertuig Type")]
@@ -20,8 +21,7 @@ namespace CRYBZ_CCSB.Models.ViewModels
 
         [DisplayName("Lengte (in cm)")]
         [Required(ErrorMessage = "{0} is een verplicht veld.")]
-        [DataType(DataType.Custom)]
-        [RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$")]
+        [Range(200, 2000, ErrorMessage = "Alleen positieve getallen toegestaan")]
         public int Length { get; set; }
 
         [DisplayName("Merk")]
