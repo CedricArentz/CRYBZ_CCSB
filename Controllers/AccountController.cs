@@ -67,6 +67,7 @@ namespace CRYBZ_CCSB.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             ViewBag.email = model.emailtxt;
+            
             var sender = new SmtpSender(() => new SmtpClient("smtp.gmail.com")
             {
                 UseDefaultCredentials = false,
@@ -75,8 +76,9 @@ namespace CRYBZ_CCSB.Controllers
                 EnableSsl = true,
             });
             Email.DefaultSender = sender;
-            string html = Utility.Helper.EmailBody.Replace("@@FirstName", model.FirstName);
-            
+
+            string html = Utility.Helper.EmailBody.Replace("@@FirstName", model.FirstName).Replace("@@Email",model.Email).Replace("@@Password", model.Password);
+
 
             if (ModelState.IsValid)
             {
@@ -86,8 +88,9 @@ namespace CRYBZ_CCSB.Controllers
                     Email = model.Email,
                     FirstName = model.FirstName,
                     MiddleName = model.MiddleName,
-                    LastName = model.LastName
-                };
+                    LastName = model.LastName,
+
+            };
                 
                 var result = await _userManager.CreateAsync(user, model.Password);
                 
@@ -96,10 +99,10 @@ namespace CRYBZ_CCSB.Controllers
                 {
                     var email = Email
                     //hier komen de gegevens van email (Onderwerp text etc)
-                    .From("beheerdervanccsb@gmail.com", "X")
+                    .From("beheerdervanccsb@gmail.com", "Welkom bij CCSB!")
                     .To(model.Email, "Naam verzender")
                     .Subject("Onderwerp Email")
-                    .Body(html);
+                    .Body(html, true);
                     var response = await email.SendAsync();
 
                     // Assign role to user and log the user in and redirect to the homepage
