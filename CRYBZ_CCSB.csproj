@@ -28,4 +28,10 @@
     <Folder Include="Tamplates\Email\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\images\CCSB_Logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
