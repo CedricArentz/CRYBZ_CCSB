@@ -1,4 +1,6 @@
-﻿var routeURL = location.protocol + "//" + location.host;
+﻿// const { get } = require("jquery");
+
+var routeURL = location.protocol + "//" + location.host;
 $(document).ready(function () {
     $("#Date").kendoDateTimePicker({
         value: new Date(),
@@ -24,6 +26,35 @@ function InitializeCalendar() {
                 editable: false,
                 select: function (event) {
                     onShowModal(event, null);
+                },
+                eventDisplay: 'block',
+                events: function (fetchInfo, successCallback, failureCallback) {
+                    $.ajax({
+                        url: routeURL + '/api/AppointmentApi/GetCalendarDataById?licenseplate=70-ght-14',/* + $("#employeeId").val(),*/
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (response) {
+                            var events = [];
+                            if (response.status === 1) {
+                                $.each(response.dataenum, function (i, data) {
+                                    events.push({
+                                        LicensePlate: data.LicensePlate,
+                                        Date: data.Date,
+                                        Action: data.Action,
+                                        backgroundColor: data.isEmployeeApproved ? "#28a745" : "#dc3545",
+                                        textColor: "white",
+                                    });
+                                })
+                            }
+                            successCallback(events);
+                        },
+                        error: function (xhr) {
+                            $.notify("Error", "error");
+                        }
+                    });
+                },
+                eventClick: function (info) {
+                    getEventDetailsByEventId(info.event);
                 }
             });
             calendar.render();
@@ -34,6 +65,17 @@ function InitializeCalendar() {
     }
 }
 function onShowModal(obj, isEventDetail) {
+    if (isEventDetail) {
+        $("#LicensePlate").val(obj.LicensePlate);
+        $("#Date").val(obj.Date);
+        $("#Action").val(obj.Action);
+    }
+    else {
+        var appointmentdate = obj.start.getYear() + "-" + obj.start.getMonth() + "-" + obj.start.getDay() + " " + new moment().format("HH:mm:ss");
+        $("#LicensePlate").val(0);
+        $("#Date").val(Date);
+        $("#Action").val("");
+    }
     $("#appointmentInput").modal("show");
 }
 function onCloseModal() {
@@ -76,4 +118,24 @@ function checkValidation() {
         $("#Date").removeClass("error");
     }
     return isValid;
+}
+
+function getEventDetailsByEventId(info) {
+    $.ajax({
+        url: routeURL + '/api/AppointmentApi/GetCalendarDataById' + info.id,
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            if (response.status === 1 && response.dataenum != undefined) {
+                onShowModal(respone.dataenum, true);
+            }
+        },
+        error: function (xhr) {
+            $.notify("Error", "error");
+        }
+    });
+}
+
+function onEmployeeChange() {
+    calendar.refetchEvents();
 }

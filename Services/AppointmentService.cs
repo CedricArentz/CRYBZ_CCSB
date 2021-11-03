@@ -84,6 +84,15 @@ namespace CRYBZ_CCSB.Services
                 return 2;
             }
         }
-        
+
+        public AppointmentViewModel GetById(string licenseplate)
+        {
+            return _db.Appointments.Where(a => a.LicensePlate == licenseplate).ToList().Select(
+                c => new AppointmentViewModel()
+                {
+                    LicensePlate = c.LicensePlate,
+                    Action = c.Action
+                }).SingleOrDefault();
+        }
     }
 }

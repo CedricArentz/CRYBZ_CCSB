@@ -52,5 +52,23 @@ namespace CRYBZ_CCSB.Controllers.API
             }
             return Ok(commonResponse);
         }
+
+        [HttpGet]
+        //[Route("GetCalendarDataById/{licenseplate}")]
+        public IActionResult GetCalendarDataById(string licenseplate)
+        {
+            CommonResponse<AppointmentViewModel> commonResponse = new CommonResponse<AppointmentViewModel>();
+            try
+            {
+                commonResponse.DataEnum = _appointmentService.GetById(licenseplate);
+                commonResponse.Status = Helper.Succes_code;
+            }
+            catch (Exception ex)
+            {
+                commonResponse.Message = ex.Message;
+                commonResponse.Status = Helper.Failure_code;
+            }
+            return Ok(commonResponse);
+        }
     }
 }

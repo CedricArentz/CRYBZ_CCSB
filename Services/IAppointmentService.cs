@@ -12,5 +12,6 @@ namespace CRYBZ_CCSB.Services
         public List<CustomerViewModel> GetCustomerList();
         public List<AppointmentViewModel> GetVehicleList();
         public Task<int> AddUpdate(AppointmentViewModel model);
+        public AppointmentViewModel GetById(string licenseplate);
     }
 }
