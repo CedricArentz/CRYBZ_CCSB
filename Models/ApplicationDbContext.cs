@@ -16,5 +16,6 @@ namespace CRYBZ_CCSB.Models
         }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<CRYBZ_CCSB.Models.ViewModels.VehicleViewModel> Vehicles { get; set; }
+        public DbSet<ContractViewModel> Contracts { get; set; }
     }
 }
