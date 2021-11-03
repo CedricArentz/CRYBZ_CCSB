@@ -136,7 +136,6 @@ namespace CRYBZ_CCSB.Controllers.API
             {
                 commonResponse.Status = await _appointmentService.DeleteAppointment(id);
                 commonResponse.Message = commonResponse.Status == 1 ? Helper.AppointmentDeleted : Helper.SomethingWentWrong;
-
             }
             catch (Exception ex)
             {
