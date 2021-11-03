@@ -30,7 +30,7 @@ function InitializeCalendar() {
                 eventDisplay: 'block',
                 events: function (fetchInfo, successCallback, failureCallback) {
                     $.ajax({
-                        url: routeURL + '/api/AppointmentApi/GetCalendarDataById?licenseplate=70-ght-14',/* + $("#employeeId").val(),*/
+                        url: routeURL + '/API/AppointmentApi/GetCalendarDataById?licenseplate=70-ght-14',/* + $("#employeeId").val(),*/
                         type: 'GET',
                         dataType: 'json',
                         success: function (response) {
