@@ -1,17 +1,11 @@
 ﻿using CRYBZ_CCSB.Models;
 using CRYBZ_CCSB.Models.ViewModels;
 using CRYBZ_CCSB.Utility;
-using FluentEmail.Core;
-using FluentEmail.Smtp;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting.Internal;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace CRYBZ_CCSB.Controllers
@@ -66,20 +60,6 @@ namespace CRYBZ_CCSB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            ViewBag.email = model.emailtxt;
-            
-            var sender = new SmtpSender(() => new SmtpClient("smtp.gmail.com")
-            {
-                UseDefaultCredentials = false,
-                Port = 587,
-                Credentials = new NetworkCredential("beheerdervanccsb@gmail.com", "Ronaniseendikkepadvis04!"),
-                EnableSsl = true,
-            });
-            Email.DefaultSender = sender;
-
-            string html = Utility.Helper.EmailBody.Replace("@@FirstName", model.FirstName).Replace("@@Email",model.Email).Replace("@@Password", model.Password);
-
-
             if (ModelState.IsValid)
             {
                 ApplicationUser user = new ApplicationUser()
@@ -88,23 +68,11 @@ namespace CRYBZ_CCSB.Controllers
                     Email = model.Email,
                     FirstName = model.FirstName,
                     MiddleName = model.MiddleName,
-                    LastName = model.LastName,
-
-            };
-                
+                    LastName = model.LastName
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
-                
-
                 if (result.Succeeded)
                 {
-                    var email = Email
-                    //hier komen de gegevens van email (Onderwerp text etc)
-                    .From("beheerdervanccsb@gmail.com", "Welkom bij CCSB!")
-                    .To(model.Email, "Naam verzender")
-                    .Subject("Onderwerp Email")
-                    .Body(html, true);
-                    var response = await email.SendAsync();
-
                     // Assign role to user and log the user in and redirect to the homepage
                     await _userManager.AddToRoleAsync(user, model.RoleName);
                     await _signInManager.SignInAsync(user, isPersistent: false);
