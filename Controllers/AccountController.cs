@@ -39,7 +39,7 @@ namespace CRYBZ_CCSB.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Appointment");
+                    return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "Inloggen mislukt");
             }
