@@ -43,6 +43,11 @@ namespace CRYBZ_CCSB.Controllers
             return View(contractViewModel);
         }
 
+        // GET: Contract/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
 
         // POST: Contract/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -67,6 +72,7 @@ namespace CRYBZ_CCSB.Controllers
             {
                 return NotFound();
             }
+
             var contractViewModel = await _context.Contracts.FindAsync(id);
             if (contractViewModel == null)
             {
