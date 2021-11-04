@@ -67,13 +67,13 @@ function InitializeCalendar() {
 function onShowModal(obj, isEventDetail) {
     if (isEventDetail) {
         $("#LicensePlate").val(obj.LicensePlate);
-        $("#Date").val(obj.Date);
+        //$("#Date").val(obj.Date);
         $("#Action").val(obj.Action);
     }
     else {
-        var appointmentdate = obj.start.getYear() + "-" + obj.start.getMonth() + "-" + obj.start.getDay() + " " + new moment().format("HH:mm:ss");
+        var appointmentdate = obj.start.getYear + "-" + obj.start.getMonth() + "-" + obj.start.getDay() + " " + new moment().format("HH:mm:ss");
         $("#LicensePlate").val(0);
-        $("#Date").val(Date);
+        //$("#Date").val(Date);
         $("#Action").val("");
     }
     $("#appointmentInput").modal("show");
@@ -104,7 +104,7 @@ function onSubmitForm() {
             }
         },
         error: function (xhr) {
-            $.notify("Errortest", "Fout");
+            $.notify("Error", "Fout");
         }
     });
 }

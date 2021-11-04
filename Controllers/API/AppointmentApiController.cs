@@ -54,7 +54,7 @@ namespace CRYBZ_CCSB.Controllers.API
         }
 
         [HttpGet]
-        //[Route("GetCalendarDataById/{licenseplate}")]
+        [Route("GetCalendarDataById")]
         public IActionResult GetCalendarDataById(string licenseplate)
         {
             CommonResponse<AppointmentViewModel> commonResponse = new CommonResponse<AppointmentViewModel>();
