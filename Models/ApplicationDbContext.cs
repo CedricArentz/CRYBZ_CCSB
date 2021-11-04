@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using CRYBZ_CCSB.Models.ViewModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,6 @@ namespace CRYBZ_CCSB.Models
 
         }
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<ContractViewModel> Contracts { get; set; }
     }
 }
