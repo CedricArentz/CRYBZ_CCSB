@@ -1,13 +1,13 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CRYBZ_CCSB.Models.ViewModels
+namespace CRYBZ_CCSB.Models
 {
-    public class VehicleViewModel
+    public class Vehicle
     {
         [Key]
         [DisplayName("Kenteken")]
@@ -32,8 +32,7 @@ namespace CRYBZ_CCSB.Models.ViewModels
         [Required(ErrorMessage = "{0} is een verplicht veld.")]
         public string Type { get; set; }
 
-        [DisplayName("Eigenaar")]
-        [Required(ErrorMessage = "{0} is een verplicht veld.")]
-        public string CustomerId { get; set; }
+        public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }

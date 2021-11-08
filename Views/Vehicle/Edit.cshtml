@@ -1,12 +1,12 @@
-﻿@model CRYBZ_CCSB.Models.ViewModels.VehicleViewModel
+﻿@model CRYBZ_CCSB.Models.Vehicle
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Voertuig aanpassen</h1>
+<h1>Edit</h1>
 
-<h4>Pas de gegevens van het voertuig aan</h4>
+<h4>Vehicle</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,13 +15,14 @@
             <input type="hidden" asp-for="LicencePlate" />
             <div class="form-group">
                 <label asp-for="VehicleType" class="control-label"></label>
-                <select asp-for="VehicleType"
-                        asp-items="@CRYBZ_CCSB.Utility.Helper.GetVehicleType()"
-                        class="form-control">
-                </select>
+                <input asp-for="VehicleType" class="form-control" />
                 <span asp-validation-for="VehicleType" class="text-danger"></span>
             </div>
-            
+            <div class="form-group">
+                <label asp-for="Length" class="control-label"></label>
+                <input asp-for="Length" class="form-control" />
+                <span asp-validation-for="Length" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Brand" class="control-label"></label>
                 <input asp-for="Brand" class="form-control" />
@@ -33,26 +34,21 @@
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Length" class="control-label"></label>
-                <input asp-for="Length" class="form-control" />
-                <span asp-validation-for="Length" class="text-danger"></span>
+                <label asp-for="ApplicationUserId" class="control-label"></label>
+                <select asp-for="ApplicationUserId" class="form-control" asp-items="ViewBag.ApplicationUserId"></select>
+                <span asp-validation-for="ApplicationUserId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CustomerId" class="control-label"></label>
-                <select asp-for="CustomerId"
-                        asp-items="@(new SelectList(ViewBag.CustomerList, "Id", "Name"))"
-                        class="form-control">
-                </select>
-                <span asp-validation-for="CustomerId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Opslaan" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Terug naar overzicht</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

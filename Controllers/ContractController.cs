@@ -3,29 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRYBZ_CCSB.Models;
 
 namespace CRYBZ_CCSB.Controllers
 {
-    public class AppointmentController : Controller
+    public class ContractController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AppointmentController(ApplicationDbContext context)
+        public ContractController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Appointment
+        // GET: Contract
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Appointments.Include(a => a.Owner);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Contract.ToListAsync());
         }
 
-        // GET: Appointment/Details/5
+        // GET: Contract/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,42 +31,39 @@ namespace CRYBZ_CCSB.Controllers
                 return NotFound();
             }
 
-            var appointment = await _context.Appointments
-                .Include(a => a.Owner)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (appointment == null)
+            var contract = await _context.Contract
+                .FirstOrDefaultAsync(m => m.ContractID == id);
+            if (contract == null)
             {
                 return NotFound();
             }
 
-            return View(appointment);
+            return View(contract);
         }
 
-        // GET: Appointment/Create
+        // GET: Contract/Create
         public IActionResult Create()
         {
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
-        // POST: Appointment/Create
+        // POST: Contract/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StartDate,EndDate,Action,ApplicationUserId")] Appointment appointment)
+        public async Task<IActionResult> Create([Bind("ContractID,StartDate,EndDate,CustomerId,LicencePlate")] Contract contract)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(appointment);
+                _context.Add(contract);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", appointment.ApplicationUserId);
-            return View(appointment);
+            return View(contract);
         }
 
-        // GET: Appointment/Edit/5
+        // GET: Contract/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,23 +71,22 @@ namespace CRYBZ_CCSB.Controllers
                 return NotFound();
             }
 
-            var appointment = await _context.Appointments.FindAsync(id);
-            if (appointment == null)
+            var contract = await _context.Contract.FindAsync(id);
+            if (contract == null)
             {
                 return NotFound();
             }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", appointment.ApplicationUserId);
-            return View(appointment);
+            return View(contract);
         }
 
-        // POST: Appointment/Edit/5
+        // POST: Contract/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StartDate,EndDate,Action,ApplicationUserId")] Appointment appointment)
+        public async Task<IActionResult> Edit(int id, [Bind("ContractID,StartDate,EndDate,CustomerId,LicencePlate")] Contract contract)
         {
-            if (id != appointment.Id)
+            if (id != contract.ContractID)
             {
                 return NotFound();
             }
@@ -101,12 +95,12 @@ namespace CRYBZ_CCSB.Controllers
             {
                 try
                 {
-                    _context.Update(appointment);
+                    _context.Update(contract);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AppointmentExists(appointment.Id))
+                    if (!ContractExists(contract.ContractID))
                     {
                         return NotFound();
                     }
@@ -117,11 +111,10 @@ namespace CRYBZ_CCSB.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", appointment.ApplicationUserId);
-            return View(appointment);
+            return View(contract);
         }
 
-        // GET: Appointment/Delete/5
+        // GET: Contract/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -129,31 +122,30 @@ namespace CRYBZ_CCSB.Controllers
                 return NotFound();
             }
 
-            var appointment = await _context.Appointments
-                .Include(a => a.Owner)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (appointment == null)
+            var contract = await _context.Contract
+                .FirstOrDefaultAsync(m => m.ContractID == id);
+            if (contract == null)
             {
                 return NotFound();
             }
 
-            return View(appointment);
+            return View(contract);
         }
 
-        // POST: Appointment/Delete/5
+        // POST: Contract/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var appointment = await _context.Appointments.FindAsync(id);
-            _context.Appointments.Remove(appointment);
+            var contract = await _context.Contract.FindAsync(id);
+            _context.Contract.Remove(contract);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AppointmentExists(int id)
+        private bool ContractExists(int id)
         {
-            return _context.Appointments.Any(e => e.Id == id);
+            return _context.Contract.Any(e => e.ContractID == id);
         }
     }
 }

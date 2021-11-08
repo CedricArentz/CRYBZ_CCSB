@@ -6,26 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRYBZ_CCSB.Models;
-using CRYBZ_CCSB.Models.ViewModels;
-using CRYBZ_CCSB.Services;
 
 namespace CRYBZ_CCSB.Controllers
 {
     public class VehicleController : Controller
     {
         private readonly ApplicationDbContext _context;
-        IAppointmentService _appointmentService;
 
-        public VehicleController(ApplicationDbContext context, IAppointmentService appointmentService)
+        public VehicleController(ApplicationDbContext context)
         {
             _context = context;
-            _appointmentService = appointmentService;
         }
 
         // GET: Vehicle
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Vehicles.ToListAsync());
+            var applicationDbContext = _context.Vehicles.Include(v => v.ApplicationUser);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Vehicle/Details/5
@@ -36,20 +33,21 @@ namespace CRYBZ_CCSB.Controllers
                 return NotFound();
             }
 
-            var vehicleViewModel = await _context.Vehicles
+            var vehicle = await _context.Vehicles
+                .Include(v => v.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.LicencePlate == id);
-            if (vehicleViewModel == null)
+            if (vehicle == null)
             {
                 return NotFound();
             }
 
-            return View(vehicleViewModel);
+            return View(vehicle);
         }
 
         // GET: Vehicle/Create
         public IActionResult Create()
         {
-            ViewBag.CustomerList =  _appointmentService.GetCustomerList();
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -58,19 +56,16 @@ namespace CRYBZ_CCSB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LicencePlate,VehicleType,Length,Brand,Type,CustomerId")] VehicleViewModel vehicleViewModel)
+        public async Task<IActionResult> Create([Bind("LicencePlate,VehicleType,Length,Brand,Type,ApplicationUserId")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
             {
-                if (vehicleViewModel.Brand != null)
-                {
-
-                }
-                _context.Add(vehicleViewModel);
+                _context.Add(vehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(vehicleViewModel);
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", vehicle.ApplicationUserId);
+            return View(vehicle);
         }
 
         // GET: Vehicle/Edit/5
@@ -81,13 +76,13 @@ namespace CRYBZ_CCSB.Controllers
                 return NotFound();
             }
 
-            var vehicleViewModel = await _context.Vehicles.FindAsync(id);
-            if (vehicleViewModel == null)
+            var vehicle = await _context.Vehicles.FindAsync(id);
+            if (vehicle == null)
             {
                 return NotFound();
             }
-            ViewBag.CustomerList = _appointmentService.GetCustomerList();
-            return View(vehicleViewModel);
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", vehicle.ApplicationUserId);
+            return View(vehicle);
         }
 
         // POST: Vehicle/Edit/5
@@ -95,9 +90,9 @@ namespace CRYBZ_CCSB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("LicencePlate,VehicleType,Length,Brand,Type,CustomerId")] VehicleViewModel vehicleViewModel)
+        public async Task<IActionResult> Edit(string id, [Bind("LicencePlate,VehicleType,Length,Brand,Type,ApplicationUserId")] Vehicle vehicle)
         {
-            if (id != vehicleViewModel.LicencePlate)
+            if (id != vehicle.LicencePlate)
             {
                 return NotFound();
             }
@@ -106,12 +101,12 @@ namespace CRYBZ_CCSB.Controllers
             {
                 try
                 {
-                    _context.Update(vehicleViewModel);
+                    _context.Update(vehicle);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VehicleExists(vehicleViewModel.LicencePlate))
+                    if (!VehicleExists(vehicle.LicencePlate))
                     {
                         return NotFound();
                     }
@@ -122,7 +117,8 @@ namespace CRYBZ_CCSB.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(vehicleViewModel);
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", vehicle.ApplicationUserId);
+            return View(vehicle);
         }
 
         // GET: Vehicle/Delete/5
@@ -133,14 +129,15 @@ namespace CRYBZ_CCSB.Controllers
                 return NotFound();
             }
 
-            var vehicleViewModel = await _context.Vehicles
+            var vehicle = await _context.Vehicles
+                .Include(v => v.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.LicencePlate == id);
-            if (vehicleViewModel == null)
+            if (vehicle == null)
             {
                 return NotFound();
             }
 
-            return View(vehicleViewModel);
+            return View(vehicle);
         }
 
         // POST: Vehicle/Delete/5
@@ -148,8 +145,8 @@ namespace CRYBZ_CCSB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var vehicleViewModel = await _context.Vehicles.FindAsync(id);
-            _context.Vehicles.Remove(vehicleViewModel);
+            var vehicle = await _context.Vehicles.FindAsync(id);
+            _context.Vehicles.Remove(vehicle);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
