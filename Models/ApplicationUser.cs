@@ -29,7 +29,6 @@ namespace CRYBZ_CCSB.Models
         public string City { get; set; }
         public string BirthDate { get; set; }
         public string BankAccount { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
+        public List<Vehicle> Vehicles { get; set; }
     }
 }

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRYBZ_CCSB.Models;
-using CRYBZ_CCSB.Models.ViewModels;
 
 namespace CRYBZ_CCSB.Controllers
 {
@@ -22,7 +21,8 @@ namespace CRYBZ_CCSB.Controllers
         // GET: Contract
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Contract.ToListAsync());
+            var applicationDbContext = _context.Contract.Include(c => c.Owner);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Contract/Details/5
@@ -34,6 +34,7 @@ namespace CRYBZ_CCSB.Controllers
             }
 
             var contract = await _context.Contract
+                .Include(c => c.Owner)
                 .FirstOrDefaultAsync(m => m.ContractID == id);
             if (contract == null)
             {
@@ -46,6 +47,7 @@ namespace CRYBZ_CCSB.Controllers
         // GET: Contract/Create
         public IActionResult Create()
         {
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -54,7 +56,7 @@ namespace CRYBZ_CCSB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ContractID,StartDate,EndDate,CustomerId,LicencePlate")] Contract contract)
+        public async Task<IActionResult> Create([Bind("ContractID,StartDate,EndDate,ApplicationUserId")] Contract contract)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +64,7 @@ namespace CRYBZ_CCSB.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", contract.ApplicationUserId);
             return View(contract);
         }
 
@@ -78,6 +81,7 @@ namespace CRYBZ_CCSB.Controllers
             {
                 return NotFound();
             }
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", contract.ApplicationUserId);
             return View(contract);
         }
 
@@ -86,7 +90,7 @@ namespace CRYBZ_CCSB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ContractID,StartDate,EndDate,CustomerId,LicencePlate")] Contract contract)
+        public async Task<IActionResult> Edit(int id, [Bind("ContractID,StartDate,EndDate,ApplicationUserId")] Contract contract)
         {
             if (id != contract.ContractID)
             {
@@ -113,6 +117,7 @@ namespace CRYBZ_CCSB.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", contract.ApplicationUserId);
             return View(contract);
         }
 
@@ -125,6 +130,7 @@ namespace CRYBZ_CCSB.Controllers
             }
 
             var contract = await _context.Contract
+                .Include(c => c.Owner)
                 .FirstOrDefaultAsync(m => m.ContractID == id);
             if (contract == null)
             {

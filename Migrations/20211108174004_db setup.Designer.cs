@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRYBZ_CCSB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211108133232_Setup Database")]
-    partial class SetupDatabase
+    [Migration("20211108174004_db setup")]
+    partial class dbsetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -123,6 +123,9 @@ namespace CRYBZ_CCSB.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("ContractID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
@@ -133,7 +136,38 @@ namespace CRYBZ_CCSB.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
+                    b.HasIndex("ContractID");
+
                     b.ToTable("Appointments");
+                });
+
+            modelBuilder.Entity("CRYBZ_CCSB.Models.Contract", b =>
+                {
+                    b.Property<int>("ContractID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("EndDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StartDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VehicleLicencePlate")
+                        .HasColumnType("nvarchar(8)");
+
+                    b.HasKey("ContractID");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("VehicleLicencePlate");
+
+                    b.ToTable("Contract");
                 });
 
             modelBuilder.Entity("CRYBZ_CCSB.Models.Vehicle", b =>
@@ -309,13 +343,34 @@ namespace CRYBZ_CCSB.Migrations
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
 
+                    b.HasOne("CRYBZ_CCSB.Models.Contract", "Contract")
+                        .WithMany()
+                        .HasForeignKey("ContractID");
+
+                    b.Navigation("Contract");
+
                     b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("CRYBZ_CCSB.Models.Contract", b =>
+                {
+                    b.HasOne("CRYBZ_CCSB.Models.ApplicationUser", "Owner")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("CRYBZ_CCSB.Models.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleLicencePlate");
+
+                    b.Navigation("Owner");
+
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("CRYBZ_CCSB.Models.Vehicle", b =>
                 {
                     b.HasOne("CRYBZ_CCSB.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
+                        .WithMany("Vehicles")
                         .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("CRYBZ_CCSB.Models.Appointment", null)
@@ -374,6 +429,11 @@ namespace CRYBZ_CCSB.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CRYBZ_CCSB.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Vehicles");
                 });
 
             modelBuilder.Entity("CRYBZ_CCSB.Models.Appointment", b =>
