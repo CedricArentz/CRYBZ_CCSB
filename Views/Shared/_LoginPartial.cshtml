@@ -17,12 +17,12 @@ else
     <li>
         @*@Html.ActionLink("Registreer", "Register", "Account", routeValues: null,
        htmlAttributes: new { id = "registerLink" })*@
-        <a id="registerLink" class="nav-link text-white" asp-action="Register" asp-controller="Account">Registreren</a>
+        <a id="registerLink" class="btn btn-medium btn-primary" asp-action="Register" asp-controller="Account">Registreren</a>
     </li>
     <li>
         @*@Html.ActionLink("Login", "Login", "Account", routeValues: null,
         htmlAttributes: new { id = "loginLink" })*@
-        <a id="loginLink" class="nav-link text-white" asp-action="Login" asp-controller="Account">Inloggen</a>
+        <a id="loginLink" class="btn btn-medium btn-primary" asp-action="Login" asp-controller="Account">Inloggen</a>
     </li>
 </ul>
 }
