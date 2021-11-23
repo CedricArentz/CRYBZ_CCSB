@@ -25,6 +25,11 @@ namespace CRYBZ_CCSB.Models.ViewModels
         [Required(ErrorMessage = "{0} is een verplicht veld.")]
         public string Email { get; set; }
 
+        [DisplayName("Adres*")]
+        [Required(ErrorMessage = "{0} is een verplicht veld.")]
+        [RegularExpression(@"(NL-)?(\d{4})\s*([A-Z]{2})", ErrorMessage = "Invalid Zip")]  
+        public string Zipcode { get; set; }
+
         [Required(ErrorMessage = "{0} is een verplicht veld.")]
         [DataType(DataType.Password)]
         [DisplayName("Wachtwoord*")]
