@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRYBZ_CCSB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211108174004_db setup")]
-    partial class dbsetup
+    [Migration("20211109082605_setup db")]
+    partial class setupdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

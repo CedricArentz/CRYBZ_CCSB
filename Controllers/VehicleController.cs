@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRYBZ_CCSB.Models;
+using CRYBZ_CCSB.Utility;
 
 namespace CRYBZ_CCSB.Controllers
 {
@@ -48,6 +49,7 @@ namespace CRYBZ_CCSB.Controllers
         public IActionResult Create()
         {
             ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewBag.VehicleType = Helper.GetVehicleType();
             return View();
         }
 
@@ -56,7 +58,7 @@ namespace CRYBZ_CCSB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LicencePlate,VehicleType,Length,Brand,Type,ApplicationUserId")] Vehicle vehicle)
+        public async Task<IActionResult> Create([Bind("LicencePlate,VehicleType,Length,Brand,Type,kleur,Modelyear,SleepingAccomodation,BicycleCarrier,Airco,Mileage,HorsePower,CamperType,TowBar,EmptyWeight,HoldingTank,ApplicationUserId")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +92,7 @@ namespace CRYBZ_CCSB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("LicencePlate,VehicleType,Length,Brand,Type,ApplicationUserId")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(string id, [Bind("LicencePlate,VehicleType,Length,Brand,Type,kleur,Modelyear,SleepingAccomodation,BicycleCarrier,Airco,Mileage,HorsePower,CamperType,TowBar,EmptyWeight,HoldingTank,ApplicationUserId")] Vehicle vehicle)
         {
             if (id != vehicle.LicencePlate)
             {

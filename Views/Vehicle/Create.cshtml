@@ -19,7 +19,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="VehicleType" class="control-label"></label>
-                <input asp-for="VehicleType" class="form-control" />
+                <select asp-for="VehicleType"
+                        asp-items="@(new SelectList(ViewBag.VehicleType))"
+                        class="form-control" 
+                        onchange="if (value) {
+                        }"/>
+                
                 <span asp-validation-for="VehicleType" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -36,6 +41,61 @@
                 <label asp-for="Type" class="control-label"></label>
                 <input asp-for="Type" class="form-control" />
                 <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="kleur" class="control-label"></label>
+                <input asp-for="kleur" class="form-control" />
+                <span asp-validation-for="kleur" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Modelyear" class="control-label"></label>
+                <input asp-for="Modelyear" class="form-control" />
+                <span asp-validation-for="Modelyear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SleepingAccomodation" class="control-label"></label>
+                <input asp-for="SleepingAccomodation" class="form-control" />
+                <span asp-validation-for="SleepingAccomodation" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="BicycleCarrier" /> @Html.DisplayNameFor(model => model.BicycleCarrier)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Airco" /> @Html.DisplayNameFor(model => model.Airco)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mileage" class="control-label"></label>
+                <input asp-for="Mileage" class="form-control" />
+                <span asp-validation-for="Mileage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HorsePower" class="control-label"></label>
+                <input asp-for="HorsePower" class="form-control" />
+                <span asp-validation-for="HorsePower" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CamperType" class="control-label"></label>
+                <input asp-for="CamperType" class="form-control" />
+                <span asp-validation-for="CamperType" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="TowBar" /> @Html.DisplayNameFor(model => model.TowBar)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmptyWeight" class="control-label"></label>
+                <input asp-for="EmptyWeight" class="form-control" />
+                <span asp-validation-for="EmptyWeight" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="HoldingTank" /> @Html.DisplayNameFor(model => model.HoldingTank)
+                </label>
             </div>
             <div class="form-group">
                 <label asp-for="ApplicationUserId" class="control-label"></label>

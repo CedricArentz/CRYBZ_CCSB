@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CRYBZ_CCSB.Models
+namespace CRYBZ_CCSB.Models.ViewModels
 {
-    public class Vehicle
+    public class CaravanViewModel
     {
         [Key]
         [DisplayName("Kenteken")]
@@ -47,34 +47,11 @@ namespace CRYBZ_CCSB.Models
         [DisplayName("Airconditioner")]
         public bool Airco { get; set; }
 
-        #region Camper Gegevens
-
-        [DisplayName("Kilometerstand")]
-        public int Mileage { get; set; }
-
-        [DisplayName("Aantal pk’s")]
-        public int HorsePower { get; set; }
-
-        [DisplayName("Soort (Integraal, Alkoof, Halfintegraal)")]
-        public string CamperType { get; set; }
-
-        [DisplayName("Trekhaak")]
-        public bool TowBar { get; set; }
-        #endregion
-
-        #region Caravan Gegevens
-        //Caravan Gegevens
         [DisplayName("Ledig Gewicht (in Kg)")]
         public int EmptyWeight { get; set; }
 
         [DisplayName("Vuilwatertank")]
         public bool HoldingTank { get; set; }
-        #endregion
-
-        //Foreign Key
-        public string ApplicationUserId { get; set; }
-
-        public ApplicationUser ApplicationUser { get; set; }
 
     }
 }

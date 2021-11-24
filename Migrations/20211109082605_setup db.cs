@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CRYBZ_CCSB.Migrations
 {
-    public partial class dbsetup : Migration
+    public partial class setupdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
