@@ -35,8 +35,29 @@
     <div class="form-group row">
         <label class="col-md-2" asp-for="Zipcode"></label>
         <div class="col-md-10">
-            <input asp-for="Zipcode" class="form-control" />
+            <input id="Zipcode" asp-for="Zipcode" class="form-control" onchange="checkZipcodeAndHouseNumber()" />
             <span asp-validation-for="Zipcode" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2" asp-for="Huisnummer"></label>
+        <div class="col-md-10">
+            <input id="Huisnummer" asp-for="Huisnummer" class="form-control" onchange="checkZipcodeAndHouseNumber()" />
+            <span asp-validation-for="Huisnummer" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2" asp-for="Straatnaam"></label>
+        <div class="col-md-10">
+            <input id="Straatnaam" asp-for="Straatnaam" class="form-control" readonly="readonly"/>
+            <span asp-validation-for="Straatnaam" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2" asp-for="Woonplaats"></label>
+        <div class="col-md-10">
+            <input id="Woonplaats" asp-for="Woonplaats" class="form-control" readonly="readonly" />
+            <span asp-validation-for="Woonplaats" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
@@ -76,6 +97,39 @@
         </div>
     </div>
 </form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"
+        integrity="sha512-u9akINsQsAkG9xjc1cnGF4zw5TFDwkxuc9vUp5dltDWYCSmyd0meygbvgXrlc/z7/o4a19Fb5V0OUE58J7dcyw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+</script>
+<script>
+    function checkZipcodeAndHouseNumber() {
+        var Postcode = document.getElementById("Zipcode").value;
+
+        console.log(Postcode)
+
+        var Huisnummer = document.getElementById("Huisnummer").value;
+
+        console.log(Huisnummer)
+
+        var street = document.getElementById("Straatnaam");
+
+        console.log(street)
+
+        var residence = document.getElementById("Woonplaats");
+
+        console.log(residence)
+
+        axios.get('https://geodata.nationaalgeoregister.nl/locatieserver/v3/free?q=' + Postcode + ' ' + Huisnummer)
+            .then(response => {
+                residence.value = response.data["response"]["docs"][0]["woonplaatsnaam"];
+                street.value = response.data["response"]["docs"][0]["straatnaam"];
+            })
+            .catch(error => console.error(error));
+    }
+</script>
+
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
+
 }
