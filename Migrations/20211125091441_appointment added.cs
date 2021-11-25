@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CRYBZ_CCSB.Migrations
 {
-    public partial class setupdb : Migration
+    public partial class appointmentadded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -73,6 +73,28 @@ namespace CRYBZ_CCSB.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Appointments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Action = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Appointments_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -169,12 +191,29 @@ namespace CRYBZ_CCSB.Migrations
                     Length = table.Column<int>(type: "int", nullable: false),
                     Brand = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    kleur = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Modelyear = table.Column<int>(type: "int", nullable: false),
+                    SleepingAccomodation = table.Column<int>(type: "int", nullable: false),
+                    BicycleCarrier = table.Column<bool>(type: "bit", nullable: false),
+                    Airco = table.Column<bool>(type: "bit", nullable: false),
+                    Mileage = table.Column<int>(type: "int", nullable: false),
+                    HorsePower = table.Column<int>(type: "int", nullable: false),
+                    CamperType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TowBar = table.Column<bool>(type: "bit", nullable: false),
+                    EmptyWeight = table.Column<int>(type: "int", nullable: false),
+                    HoldingTank = table.Column<bool>(type: "bit", nullable: false),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     AppointmentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vehicles", x => x.LicencePlate);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_Appointments_AppointmentId",
+                        column: x => x.AppointmentId,
+                        principalTable: "Appointments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Vehicles_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
@@ -211,44 +250,10 @@ namespace CRYBZ_CCSB.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Appointments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Action = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ContractID = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Appointments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Appointments_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Appointments_Contract_ContractID",
-                        column: x => x.ContractID,
-                        principalTable: "Contract",
-                        principalColumn: "ContractID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_ApplicationUserId",
                 table: "Appointments",
                 column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Appointments_ContractID",
-                table: "Appointments",
-                column: "ContractID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -308,34 +313,10 @@ namespace CRYBZ_CCSB.Migrations
                 name: "IX_Vehicles_AppointmentId",
                 table: "Vehicles",
                 column: "AppointmentId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Vehicles_Appointments_AppointmentId",
-                table: "Vehicles",
-                column: "AppointmentId",
-                principalTable: "Appointments",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Appointments_AspNetUsers_ApplicationUserId",
-                table: "Appointments");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Contract_AspNetUsers_ApplicationUserId",
-                table: "Contract");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Vehicles_AspNetUsers_ApplicationUserId",
-                table: "Vehicles");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Appointments_Contract_ContractID",
-                table: "Appointments");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -352,19 +333,19 @@ namespace CRYBZ_CCSB.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Contract");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Vehicles");
 
             migrationBuilder.DropTable(
                 name: "Appointments");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

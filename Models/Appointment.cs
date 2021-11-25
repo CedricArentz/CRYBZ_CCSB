@@ -14,10 +14,8 @@ namespace CRYBZ_CCSB.Models
         public DateTime? EndDate { get; set; }
         public string Action { get; set; }
 
-        [Required]
         public List<Vehicle> Vehicles { get; set; }
         public string ApplicationUserId { get; set; }
         public ApplicationUser Owner { get; set; }
-        public Contract Contract { get; set; }
     }
 }

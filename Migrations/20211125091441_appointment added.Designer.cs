@@ -10,15 +10,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRYBZ_CCSB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211109082605_setup db")]
-    partial class setupdb
+    [Migration("20211125091441_appointment added")]
+    partial class appointmentadded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.11")
+                .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("CRYBZ_CCSB.Models.ApplicationUser", b =>
@@ -123,9 +123,6 @@ namespace CRYBZ_CCSB.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("ContractID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
@@ -135,8 +132,6 @@ namespace CRYBZ_CCSB.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("ContractID");
 
                     b.ToTable("Appointments");
                 });
@@ -176,18 +171,48 @@ namespace CRYBZ_CCSB.Migrations
                         .HasMaxLength(8)
                         .HasColumnType("nvarchar(8)");
 
+                    b.Property<bool>("Airco")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("AppointmentId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("BicycleCarrier")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Brand")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CamperType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmptyWeight")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("HoldingTank")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("HorsePower")
+                        .HasColumnType("int");
+
                     b.Property<int>("Length")
                         .HasColumnType("int");
+
+                    b.Property<int>("Mileage")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Modelyear")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SleepingAccomodation")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("TowBar")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -195,6 +220,9 @@ namespace CRYBZ_CCSB.Migrations
 
                     b.Property<string>("VehicleType")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("kleur")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("LicencePlate");
@@ -342,12 +370,6 @@ namespace CRYBZ_CCSB.Migrations
                     b.HasOne("CRYBZ_CCSB.Models.ApplicationUser", "Owner")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("CRYBZ_CCSB.Models.Contract", "Contract")
-                        .WithMany()
-                        .HasForeignKey("ContractID");
-
-                    b.Navigation("Contract");
 
                     b.Navigation("Owner");
                 });
