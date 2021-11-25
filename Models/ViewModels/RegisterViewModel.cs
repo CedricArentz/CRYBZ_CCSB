@@ -25,6 +25,24 @@ namespace CRYBZ_CCSB.Models.ViewModels
         [Required(ErrorMessage = "{0} is een verplicht veld.")]
         public string Email { get; set; }
 
+        [DisplayName("Postcode*")]
+        [Required(ErrorMessage = "{0} is een verplicht veld.")]
+        [RegularExpression(@"(NL-)?([1-9]{4})\s*([A-Z]{2})", ErrorMessage = "Onjuiste Postcode")]  
+        public string Zipcode { get; set; }
+
+        [DisplayName("Straatnaam*")]
+        [Required(ErrorMessage = "{0} is een verplicht veld.")]
+        public string Straatnaam { get; set; }
+
+
+        [DisplayName("Woonplaats*")]
+        [Required(ErrorMessage = "{0} is een verplicht veld.")]
+        public string Woonplaats { get; set; }
+
+        [DisplayName("Huisnummer*")]
+        [Required(ErrorMessage = "{0} is een verplicht veld.")]
+        public string Huisnummer { get; set; }
+
         [Required(ErrorMessage = "{0} is een verplicht veld.")]
         [DataType(DataType.Password)]
         [DisplayName("Wachtwoord*")]
