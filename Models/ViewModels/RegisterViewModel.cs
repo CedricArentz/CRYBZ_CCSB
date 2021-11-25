@@ -27,7 +27,7 @@ namespace CRYBZ_CCSB.Models.ViewModels
 
         [DisplayName("Postcode*")]
         [Required(ErrorMessage = "{0} is een verplicht veld.")]
-        [RegularExpression(@"(NL-)?([1-9]{4})\s*([A-Z]{2})", ErrorMessage = "Invalid Zip")]  
+        [RegularExpression(@"(NL-)?([1-9]{4})\s*([A-Z]{2})", ErrorMessage = "Onjuiste Postcode")]  
         public string Zipcode { get; set; }
 
         [DisplayName("Straatnaam*")]
